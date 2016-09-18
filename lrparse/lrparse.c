@@ -61,14 +61,15 @@ void lrparse(){
 	sym = getToken();
 	do{
 		i = action[stack[0][top]][sym-256];
+
 		if(i==ACC)
 			printf("%d\n", stack[1][top]);
-		else if(i>0)	//shift
+		else if(i>0)		//shift
 			shift(i);
-		else if(i<0)	//reduce
+		else if(i<0)		//reduce
 			reduce(-i);
 		else			//error
-			lrerror();
+			lrerror("Parse Error.");
 	}while(i != ACC);
 }
 
@@ -97,8 +98,8 @@ void reduce(int i){
 		stack[1][top] = stack[1][top+1]; 
 }
 
-void lrerror(){
-	printf("Error!\n");
+void lrerror(char *errmsg){
+	printf("%s\n", errmsg);
 	exit(1);
 }
 
@@ -133,8 +134,7 @@ int getToken(){
 	else if(ch == EOF){
 		return END;
 	}else{
-		printf("gettoken");
-		lrerror();
+		lrerror("Wrong Input");
 	}
 }
 
